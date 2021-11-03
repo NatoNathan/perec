@@ -4,7 +4,7 @@ import 'package:perec/perec.dart';
 
 void main() {
   // Load Decision map
-  LoadMap loadMap = LoadMap();
+  LoadMap loadMap = LoadMap(mapFile: '../lib/data.csv');
   loadMap.load();
   final NodeMap decisionMap = loadMap.getMap();
 
@@ -19,25 +19,22 @@ void main() {
     if (currentNode.getQuestion() != '-') {
       print(currentNode.getQuestion());
     }
-    if (currentNode.getYesId() == currentNode.getNoId()) {
-      print('You have reach a deadend\nContinue?');
+    if (currentNode.getYesId() == 0 && 0 == currentNode.getNoId()) {
+      print('You have reach a deadend\n (q: quit, y/n: continue)');
     }
     print('Enter y: yes, n: no or q: quit');
-    print('> ');
+    stdout.write('> ');
     // Get the user's input
     final String? input = stdin.readLineSync();
     if (input == 'y') {
       decisionMap.pickYes();
     } else if (input == 'n') {
-      if (currentNode.getYesId() != currentNode.getNoId()) {
-        decisionMap.pickNo();
-      } else {
-        quit = true;
-      }
+      decisionMap.pickNo();
     } else if (input == 'q') {
       quit = true;
     } else {
       print('Invalid input');
     }
+    print('');
   }
 }
