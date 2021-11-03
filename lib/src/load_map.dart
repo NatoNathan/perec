@@ -4,16 +4,15 @@ import 'package:perec/src/node.dart';
 import 'package:perec/src/node_map.dart';
 
 class LoadMap {
-  late String _mapFile;
+  late String _mapText;
   final List<Node> _nodes = [];
 
-  LoadMap({String mapFile = 'lib/data.csv'}) {
-    _mapFile = mapFile;
+  LoadMap({String mapFile = 'lib/data.csv', String? mapText}) {
+    _mapText = mapText ?? File(mapFile).readAsStringSync();
   }
 
   load() {
-    String data = File(_mapFile).readAsStringSync();
-    var lines = data.split('\n');
+    var lines = _mapText.split('\n');
     for (String line in lines) {
       var lineData = line.split(',');
       if (lineData.length == 5) {
